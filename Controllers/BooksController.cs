@@ -15,6 +15,7 @@ namespace BookStore.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            // Replace this with a call to the database to get all books
             return new string[] { "Book1", "Book2" };
         }
 
@@ -22,13 +23,15 @@ namespace BookStore.Controllers
         [HttpGet("{id}", Name = "Get")]
         public string Get(int id)
         {
-            return "value";
+            // Replace this with a call to the database to get a book with the given id
+            return "This endpoint returns a book with the given id";
         }
 
         // POST: api/Books
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            // Replace this with a call to the database to add a new book
         }
 
         // PUT: api/Books/5
