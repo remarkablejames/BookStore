@@ -1,6 +1,10 @@
+using BookStore.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// add dependency injection for the database context
+builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

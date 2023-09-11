@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,22 @@ namespace BookStore.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private readonly AppDbContext _dbContext;
+
+        public BooksController(AppDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         // GET: api/Books
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            // Replace this with a call to the database to get all books
-            return new string[] { "Book1", "Book2" };
+            // Replace this with a call to the database to get all books and return them as JSON
+            var books = _dbContext.Books.ToList();
+            return Ok(books);
+            
+             
         }
 
         // GET: api/Books/5
