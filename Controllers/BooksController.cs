@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Data;
+using BookStore.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,7 @@ namespace BookStore.Controllers
         }
 
         // GET: api/Books
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult Get()
         {
             // Replace this with a call to the database to get all books and return them as JSON
@@ -32,17 +33,32 @@ namespace BookStore.Controllers
 
         // GET: api/Books/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            // Replace this with a call to the database to get a book with the given id
-            return "This endpoint returns a book with the given id";
+            // fetch a book by id and return it as JSON
+            var book = _dbContext.Books.Find(id);
+            return Ok(book);
         }
 
         // POST: api/Books
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Book book)
         {
-            // Replace this with a call to the database to add a new book
+            // check if the book is valid
+            if (ModelState.IsValid)
+            {
+                // add the book to the database
+                _dbContext.Books.Add(book);
+                _dbContext.SaveChanges();
+                // return a 201 response, which means the item was created
+                return  CreatedAtAction(nameof(Get), new { id = book.Id }, book);
+            }
+            else
+            {
+                // return a 400 response with validation errors
+                return BadRequest(ModelState);
+                
+            }
         }
 
         // PUT: api/Books/5
